@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+a {
+	color: #ccc;
+	text-decoration: none;
+}
+.batteryContainer {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.batteryOuter {
+  border-radius: 3px;
+  border: 5px solid #ccc;
+  padding: 1px;
+  width: 100px;
+  height: 30px;
+}
+
+.batteryBump {
+  border-radius: 2px;
+  background-color: #ccc;
+  margin: 2px;
+  width: 5px;
+  height: 15px;
+}
+
+.batteryLevel {
+  border-radius: 2px;
+  background-color: #73AD21;
+  width: 10px;
+  height: 30px;
+}
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+<script>
+window.onload = function () 
+{
+	readTextFile('bs.dat');
+}
+
+Number.prototype.map = function (in_min, in_max, out_min, out_max) {
+  return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+function readTextFile(file)
+{
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                rawText = rawFile.responseText;
+				args = rawText.split(',');
+				console.log("STRT");
+				for(var i = 0; i < 7; i++)
+				{
+					var voltage = parseFloat(args[i]);
+					var width = voltage.map(2.8, 4.2, 0, 100)
+					document.getElementsByClassName('batteryLevel')[i].style.width= width.toFixed(0)+"px";
+					document.getElementsByClassName('batteryText')[i].innerText = voltage.toFixed(2)+"V";
+				}
+				document.getElementById('pack').innerText = parseFloat(args[7]).toFixed(3)+"V";
+				document.getElementById('curr').innerText = parseFloat(args[8]).toFixed(3)+"A";
+				document.getElementById('acc').innerText = parseFloat(args[9]).toFixed(3)+"Ah";
+				document.getElementById('temp').innerText = parseFloat(args[10]).toFixed(2)+"°C";
+				document.getElementById('err').innerText = args[11];
+            }
+        }
+    }
+    rawFile.send(null);
+}
+
+</script>
+</head>
+<body style="background-color:#222222;">
+
+<font size="4" face="Courier New" color="#ccc">
+<table class="center">
+<tr>
+	<td><a href="sh.html">SmartHome</a> |</td>
+	<td><a href="bs.html">BatteryStatus</a> |</td>
+	<td><a href="se.html">Settings</a></td></tr>
+</table>
+</font>
+
+<br>
+
+<table class="center">
+<tr>
+
+
+<!--Info-->
+<td>
+<font size="4" face="Courier New" color="#ccc">
+<table id="info">
+<tr><td>Pack:<div id="pack">xx.xxxV<div></td></tr>
+<tr><td><br>Current:<div id="curr">xx.xxxA<div></td></tr>
+<tr><td><br>Accum:<div id="acc">xx.xxxAh<div></td></tr>
+<tr><td><br>Temp:<div id="temp">xx.xx°C<div></td></tr>
+</table>
+</font>
+</td>
+<!--/Info-->
+
+<td width="10"></td>
+
+<!--Cells-->
+<td>
+<font size="4" face="Courier New" color="#ccc">
+<table id="cells">
+<tr><td>
+<div>
+  <div class="batteryContainer">
+    <div class="batteryOuter"><div class="batteryLevel"></div></div>
+    <div class="batteryBump"></div>
+  </div>
+</div>
+</td>
+<td><div class="batteryText">x.xxV</div></td>
+</tr>
+<tr><td>
+<div>
+  <div class="batteryContainer">
+    <div class="batteryOuter"><div class="batteryLevel"></div></div>
+    <div class="batteryBump"></div>
+  </div>
+</div>
+</td>
+<td><div class="batteryText">x.xxV</div></td>
+</tr>
+<tr><td>
+<div>
+  <div class="batteryContainer">
+    <div class="batteryOuter"><div class="batteryLevel"></div></div>
+    <div class="batteryBump"></div>
+  </div>
+</div>
+</td>
+<td><div class="batteryText">x.xxV</div></td>
+</tr>
+<tr><td>
+<div>
+  <div class="batteryContainer">
+    <div class="batteryOuter"><div class="batteryLevel"></div></div>
+    <div class="batteryBump"></div>
+  </div>
+</div>
+</td>
+<td><div class="batteryText">x.xxV</div></td>
+</tr>
+<tr><td>
+<div>
+  <div class="batteryContainer">
+    <div class="batteryOuter"><div class="batteryLevel"></div></div>
+    <div class="batteryBump"></div>
+  </div>
+</div>
+</td>
+<td><div class="batteryText">x.xxV</div></td>
+</tr>
+<tr><td>
+<div>
+  <div class="batteryContainer">
+    <div class="batteryOuter"><div class="batteryLevel"></div></div>
+    <div class="batteryBump"></div>
+  </div>
+</div>
+</td>
+<td><div class="batteryText">x.xxV</div></td>
+</tr>
+<tr><td>
+<div>
+  <div class="batteryContainer">
+    <div class="batteryOuter"><div class="batteryLevel"></div></div>
+    <div class="batteryBump"></div>
+  </div>
+</div>
+</td>
+<td><div class="batteryText">x.xxV</div></td>
+<tr><td><br>Last Error: <div id="err">UNKNOWN</div></td></tr>
+</tr>
+</table>
+</font>
+</td>
+<!--/Cells-->
+
+
+</tr></table>
+
+</body>
+</html>
+

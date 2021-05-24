@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+a {
+	color: #ccc;
+	text-decoration: none;
+}
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  background: #d3d3d3; /* Grey background */
+  border-radius: 10px;
+}
+td {
+  text-align: center;
+}
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+span{
+user-select: none;
+}
+.noclick{
+user-select: none;
+}
+</style>
+<script>
+window.onload = function () 
+{
+	readTextFile('sh.dat');
+}
+
+function triggerFile(file)
+{
+	var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    {
+    }
+    rawFile.send(null);
+}
+
+function readTextFile(file)
+{
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                rawText = rawFile.responseText;
+				args = rawText.split(',');
+				//PWM
+				for(var i = 0; i < 8; i++)
+				{
+					document.getElementsByClassName("valPack")[i].innerText = args[i];
+				}
+				//Power Switch
+				for(var i = 8; i < 12; i++)
+				{
+					if(args[i] == "1")
+					{
+						document.getElementsByClassName("valPack")[i].innerText = "ON";
+					}
+					else
+					{
+						document.getElementsByClassName("valPack")[i].innerText = "OFF";
+					}
+				}
+				//AUX
+				for(var i = 12; i < 14; i++)
+				{
+					if(args[i] == "1")
+					{
+						document.getElementsByClassName("valPack")[i].innerText = "ON";
+					}
+					else
+					{
+						document.getElementsByClassName("valPack")[i].innerText = "OFF";
+					}
+				}
+            }
+        }
+    }
+    rawFile.send(null);
+}
+function doAct(id,state)
+{
+	triggerFile("setState.php?id="+id+"&state="+state);
+	readTextFile('sh.dat?nocache='+getRandomInt(100));	
+}
+function toggle(id,state)
+{
+	triggerFile("toggleState.php?id="+id+"&state="+state);
+	readTextFile('sh.dat?nocache='+getRandomInt(100));	
+}
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+</script>
+</head>
+<body style="background-color:#222222;">
+
+<font size="4" face="Courier New" color="#ccc">
+<table class="center">
+<tr>
+	<td><a href="sh.html">SmartHome</a> |</td>
+	<td><a href="bs.html">BatteryStatus</a> |</td>
+	<td><a href="se.html">Settings</a></td></tr>
+</table>
+</font>
+
+<br>
+
+<font size="4" face="Courier New" color="#ccc">
+<table class="center">
+
+<tr><td></td><td></td><td>PWM:</td><td></td><td></td></tr>
+<tr><td><span onclick="doAct(0,0)" style="font-size:2em;"><b>-</b></span></td><td style="width:20px;"></td><td><div onclick="toggle(0)" class="noclick">Schlafen L: <span class="valPack">xx</span>%</div></td><td style="width:20px;"></td><td><span onclick="doAct(0,1)" style="font-size:2em;"><b>+</b></span></b></td></tr>
+<tr><td><span onclick="doAct(1,0)" style="font-size:2em;"><b>-</b></span></td><td style="width:20px;"></td><td><div onclick="toggle(1)" class="noclick">Schlafen R: <span class="valPack">xx</span>%</div></td><td style="width:20px;"></td><td><span onclick="doAct(1,1)" style="font-size:2em;"><b>+</b></span></b></td></tr>
+<tr><td><span onclick="doAct(2,0)" style="font-size:2em;"><b>-</b></span></td><td style="width:20px;"></td><td><div onclick="toggle(2)" class="noclick">Hauptzelt: <span class="valPack">xx</span>%</div></td><td style="width:20px;"></td><td><span onclick="doAct(2,1)" style="font-size:2em;"><b>+</b></span></b></td></tr>
+<tr><td><span onclick="doAct(3,0)" style="font-size:2em;"><b>-</b></span></td><td style="width:20px;"></td><td><div onclick="toggle(3)" class="noclick">Frei 4: <span class="valPack">xx</span>%</div></td><td style="width:20px;"></td><td><span onclick="doAct(3,1)" style="font-size:2em;"><b>+</b></span></b></td></tr>
+<tr><td><span onclick="doAct(4,0)" style="font-size:2em;"><b>-</b></span></td><td style="width:20px;"></td><td><div onclick="toggle(4)" class="noclick">Frei 5: <span class="valPack">xx</span>%</div></td><td style="width:20px;"></td><td><span onclick="doAct(4,1)" style="font-size:2em;"><b>+</b></span></b></td></tr>
+<tr><td><span onclick="doAct(5,0)" style="font-size:2em;"><b>-</b></span></td><td style="width:20px;"></td><td><div onclick="toggle(5)" class="noclick">Frei 6: <span class="valPack">xx</span>%</div></td><td style="width:20px;"></td><td><span onclick="doAct(5,1)" style="font-size:2em;"><b>+</b></span></b></td></tr>
+<tr><td><span onclick="doAct(6,0)" style="font-size:2em;"><b>-</b></span></td><td style="width:20px;"></td><td><div onclick="toggle(6)" class="noclick">Frei 7: <span class="valPack">xx</span>%</div></td><td style="width:20px;"></td><td><span onclick="doAct(6,1)" style="font-size:2em;"><b>+</b></span></b></td></tr>
+<tr><td><span onclick="doAct(7,0)" style="font-size:2em;"><b>-</b></span></td><td style="width:20px;"></td><td><div onclick="toggle(7)" class="noclick">Frei 8: <span class="valPack">xx</span>%</div></td><td style="width:20px;"></td><td><span onclick="doAct(7,1)" style="font-size:2em;"><b>+</b></span></b></td></tr>
+<tr><td></td><td></td><td><br>Power Switch:</td><td></td><td></td></tr>
+<tr><td><span onclick="doAct(8,0)" style="font-size:1.5em;"><b>OFF</b></span></td><td style="width:20px;"></td><td><div onclick="toggle(8)" class="noclick">OO1: <span class="valPack">xx</span></div></td><td style="width:20px;"></td><td><span onclick="doAct(8,1)" style="font-size:1.5em;"><b>ON</b></span></b></td></tr>
+<tr><td><span onclick="doAct(9,0)" style="font-size:1.5em;"><b>OFF</b></span></td><td style="width:20px;"></td><td><div onclick="toggle(9)" class="noclick">OO2: <span class="valPack">xx</span></div></td><td style="width:20px;"></td><td><span onclick="doAct(9,1)" style="font-size:1.5em;"><b>ON</b></span></b></td></tr>
+<tr><td><span onclick="doAct(10,0)" style="font-size:1.5em;"><b>OFF</b></span></td><td style="width:20px;"></td><td><div onclick="toggle(10)" class="noclick">OO3: <span class="valPack">xx</span></div></td><td style="width:20px;"></td><td><span onclick="doAct(10,1)" style="font-size:1.5em;"><b>ON</b></span></b></td></tr>
+<tr><td><span onclick="doAct(11,0)" style="font-size:1.5em;"><b>OFF</b></span></td><td style="width:20px;"></td><td><div onclick="toggle(11)" class="noclick">OO4: <span class="valPack">xx</span></div></td><td style="width:20px;"></td><td><span onclick="doAct(11,1)" style="font-size:1.5em;"><b>ON</b></span></b></td></tr>
+<tr><td></td><td></td><td><br>AUX:</td><td></td><td></td></tr>
+<tr><td><span onclick="doAct(12,0)" style="font-size:1.5em;"><b>OFF</b></span></td><td style="width:20px;"></td><td><div onclick="toggle(12)" class="noclick">12V: <span class="valPack">xx</span></div></td><td style="width:20px;"></td><td><span onclick="doAct(12,1)" style="font-size:1.5em;"><b>ON</b></span></b></td></tr>
+<tr><td><span onclick="doAct(13,0)" style="font-size:1.5em;"><b>OFF</b></span></td><td style="width:20px;"></td><td><div onclick="toggle(13)" class="noclick">230V: <span class="valPack">xx</span></div></td><td style="width:20px;"></td><td><span onclick="doAct(13,1)" style="font-size:1.5em;"><b>ON</b></span></b></td></tr>
+
+</table>
+</font>
+
+</body>
+</html>
+
