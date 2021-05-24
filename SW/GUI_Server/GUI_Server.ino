@@ -444,7 +444,7 @@ void initStuff()
     Serial.println("Connecting to WiFi..");
   }*/
 
-  boolean result = WiFi.softAP("DieSkandinavischen3", "FromTheOtterSide");
+  boolean result = WiFi.softAP("BMS123", "123412341234");
   if(result == true)
   {
     Serial.println("Ready");
