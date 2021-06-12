@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+
 a {
 	color: #ccc;
 	text-decoration: none;
@@ -49,6 +50,14 @@ a {
 window.onload = function () 
 {
 	readTextFile('bs.dat');
+	updateValues();
+	
+}
+
+function updateValues() {
+	console.log("Update");
+    readTextFile('bs.dat');
+    setTimeout(updateValues, 2000);
 }
 
 Number.prototype.map = function (in_min, in_max, out_min, out_max) {
@@ -77,6 +86,7 @@ function readTextFile(file)
 				}
 				document.getElementById('pack').innerText = parseFloat(args[7]).toFixed(3)+"V";
 				document.getElementById('curr').innerText = parseFloat(args[8]).toFixed(3)+"A";
+				document.getElementById('powr').innerText = (parseFloat(args[7])*parseFloat(args[8])).toFixed(2)+"W";
 				document.getElementById('acc').innerText = parseFloat(args[9]).toFixed(3)+"Ah";
 				document.getElementById('temp').innerText = parseFloat(args[10]).toFixed(2)+"°C";
 				document.getElementById('err').innerText = args[11];
@@ -111,8 +121,12 @@ function readTextFile(file)
 <table id="info">
 <tr><td>Pack:<div id="pack">xx.xxxV<div></td></tr>
 <tr><td><br>Current:<div id="curr">xx.xxxA<div></td></tr>
+<tr><td><br>Power:<div id="powr">xx.xxxW<div></td></tr>
 <tr><td><br>Accum:<div id="acc">xx.xxxAh<div></td></tr>
 <tr><td><br>Temp:<div id="temp">xx.xx°C<div></td></tr>
+<tr><td><br></td></tr>
+<tr><td><br></td></tr>
+<tr><td><br></td></tr>
 </table>
 </font>
 </td>

@@ -13,6 +13,8 @@
 
 #define P_LED_ONBOARD D4
 
+#define P_PCINTA D5
+
 #define CC_READY 7
 #define XREADY   5
 #define OVRD     4
